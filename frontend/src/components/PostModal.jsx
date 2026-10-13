@@ -14,19 +14,19 @@ import {
 } from 'lucide-react';
 
 const CATEGORIES = [
-  'Cloud Architecture',
+  'Technology & AI',
   'Web Development',
-  'DevOps & CI/CD',
-  'Database Design',
-  'System Design',
-  'General Tech',
+  'Productivity & Life',
+  'Design & UI/UX',
+  'Cloud & Architecture',
+  'Career & Learning',
 ];
 
 const PRESET_IMAGES = [
-  { label: 'Cloud Network', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80' },
-  { label: 'Data Center', url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80' },
-  { label: 'Code & Screen', url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80' },
-  { label: 'Database Storage', url: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Technology', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Writing & Desk', url: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Design & Creative', url: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Cloud Architecture', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80' },
 ];
 
 export default function PostModal({
@@ -64,9 +64,9 @@ export default function PostModal({
     } else if (mode === 'create') {
       setFormData({
         title: '',
-        author: 'Cloud Scribe',
-        category: 'Cloud Architecture',
-        tags: 'Cloud, Netlify, Render, MongoDB',
+        author: 'BlogSpace Writer',
+        category: 'Technology & AI',
+        tags: 'Reading, Writing, BlogSpace',
         coverImage: PRESET_IMAGES[0].url,
         content: '',
       });

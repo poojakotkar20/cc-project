@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 // Root route - Cloud Architecture Info
 app.get('/', (req, res) => {
   res.status(200).json({
-    project: 'CloudScribe - 3-Tier Cloud Architecture Blog Platform',
+    project: 'BlogSpace - 3-Tier Cloud Architecture Blog Reading & Writing Platform',
     status: 'Running',
     architecture: {
       tier1_presentation: 'Netlify (React / Vite)',

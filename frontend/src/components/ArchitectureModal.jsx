@@ -32,7 +32,7 @@ export default function ArchitectureModal({ isOpen, onClose }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <Layers size={20} color="var(--primary)" />
             <h3 style={{ fontSize: '1.2rem', fontWeight: 700 }}>
-              Three-Tier Cloud Architecture Specification
+              BlogSpace — Three-Tier Cloud Architecture Specification
             </h3>
           </div>
           <button onClick={onClose} className="btn-icon" style={{ borderRadius: '50%' }}>

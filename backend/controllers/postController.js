@@ -1,59 +1,80 @@
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
-// Sample initial posts for seeding
+// Sample initial posts for seeding on BlogSpace
 const initialSeedPosts = [
   {
-    title: 'Deploying a 3-Tier Web Application: Netlify, Render, and MongoDB Atlas',
-    author: 'Cloud Architect',
-    category: 'Cloud Architecture',
-    tags: ['Netlify', 'Render', 'MongoDB', 'CloudComputing'],
+    title: 'Welcome to BlogSpace: Building on a 3-Tier Cloud Architecture',
+    author: 'Pooja (Admin)',
+    category: 'Cloud & Architecture',
+    tags: ['Netlify', 'Render', 'MongoDB', 'ThreeTier'],
     coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
-    content: `Three-tier architecture is a battle-tested software design pattern that divides an application into three logical and computing tiers:
+    content: `Welcome to **BlogSpace** — a modern cloud platform crafted for readers to discover insights and writers to express ideas.
 
-1. **Presentation Tier (Netlify)**: Serves static assets, manages user interaction, and communicates strictly over HTTPS REST calls.
-2. **Application Tier (Render)**: Processes business logic, validates payloads, enforces CORS security, and interacts with persistent data stores.
-3. **Database Tier (MongoDB Atlas)**: Managed distributed document store holding persistent collections with replica sets and automated backups.
+Behind the scenes, BlogSpace runs on a decoupled Three-Tier Cloud Architecture:
+1. **Tier 1 (Presentation Layer - Netlify)**: Delivers a lightning-fast React single-page app with live search, filters, and reader modes.
+2. **Tier 2 (Application Layer - Render)**: Manages REST API routing, validates submissions, enforces CORS policies, and coordinates business logic.
+3. **Tier 3 (Database Layer - MongoDB Atlas)**: Safely persists and indexes articles, claps, and categories in a managed cloud cluster.
 
-By decoupling each tier into dedicated cloud platforms, development teams gain independent scalability, zero-downtime deployments, and isolated failure domains.`,
-    excerpt: 'Deep dive into decoupling web applications into independent cloud providers: Netlify for UI, Render for API, and Atlas for DB.',
-    readTime: '4 min read',
-    likes: 42,
-  },
-  {
-    title: 'Securing Cross-Origin Resource Sharing (CORS) in Distributed Clouds',
-    author: 'Security Specialist',
-    category: 'DevOps & CI/CD',
-    tags: ['CORS', 'Security', 'Express', 'Render'],
-    coverImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
-    content: `When your frontend is hosted on **https://your-app.netlify.app** and your backend is hosted on **https://api.onrender.com**, browsers enforce the Same-Origin Policy.
-
-To allow legitimate API calls, your Express application must configure explicit CORS headers:
-- Specify exact origins instead of wildcard '*' in production.
-- Allow necessary HTTP methods: GET, POST, PUT, DELETE, PATCH, OPTIONS.
-- Handle preflight OPTIONS requests gracefully.
-
-This prevents unauthorized third-party domains from querying or modifying your backend resources.`,
-    excerpt: 'Mastering CORS policies and environment variable configuration across Netlify and Render web services.',
+Every time you read, write, edit, or delete a post, requests flow seamlessly across this cloud triad!`,
+    excerpt: 'Explore how BlogSpace connects Netlify, Render, and MongoDB Atlas into an intuitive, responsive reading and writing platform.',
     readTime: '3 min read',
-    likes: 29,
+    likes: 54,
   },
   {
-    title: 'Schema Design & Indexing Best Practices on MongoDB Atlas',
-    author: 'Data Engineer',
-    category: 'Database Design',
-    tags: ['MongoDB', 'Atlas', 'Mongoose', 'NoSQL'],
-    coverImage: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1200&q=80',
-    content: `MongoDB Atlas offers managed cloud databases with automated sharding, point-in-time recovery, and elastic scaling.
+    title: 'The Art of Deep Work: How Modern Creators Stay Productive',
+    author: 'Elena Vance',
+    category: 'Productivity & Life',
+    tags: ['Productivity', 'Focus', 'Creativity', 'Writing'],
+    coverImage: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80',
+    content: `In an era of relentless notifications and algorithmically generated noise, deep concentration has become a superpower.
 
-When designing schemas with Mongoose:
-- Use specific validation constraints (lengths, enums, required fields).
-- Generate automatic timestamps (createdAt, updatedAt) for auditability.
-- Utilize database indexes for search fields to avoid full collection scans.
-- Secure connection strings in secret environment variables such as MONGODB_URI.`,
-    excerpt: 'A comprehensive guide to structured NoSQL document design, connection string security, and indexing in MongoDB Atlas.',
-    readTime: '5 min read',
+To protect your creative writing flow:
+- Block out uninterrupted 90-minute writing windows early in the day.
+- Keep your workspace minimal and distraction-free.
+- Write your initial thoughts without editing simultaneously.
+- Review your drafts with a clear mind before hitting publish.
+
+Consistency beats intensity every single time. Happy writing on BlogSpace!`,
+    excerpt: 'Essential strategies for writers and developers to cultivate deep focus and build lasting publishing habits.',
+    readTime: '4 min read',
     likes: 38,
+  },
+  {
+    title: 'Next-Generation Web Interfaces: Micro-interactions and Glassmorphism',
+    author: 'Marcus Chen',
+    category: 'Design & UI/UX',
+    tags: ['Design', 'CSS', 'UIUX', 'Frontend'],
+    coverImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',
+    content: `Modern web readers expect digital experiences that feel tangible, responsive, and delightful.
+
+Subtle design touches make a world of difference:
+- **Translucent Backdrop Blurs**: Glass panels that softly blend with deep radial gradients.
+- **Micro-interactions**: Subtle hover elevations, pulsing tier status dots, and smooth transitions.
+- **Readable Typography**: Balanced contrast ratios and generous line-heights that reduce eye strain during long-form reading.
+
+Good design is invisible when reading, but memorable upon reflection.`,
+    excerpt: 'How refined visual tokens and fluid CSS elevate everyday reading experiences into stunning digital spaces.',
+    readTime: '3 min read',
+    likes: 45,
+  },
+  {
+    title: 'Understanding REST APIs and Cross-Origin Resource Sharing (CORS)',
+    author: 'Dev Advocate',
+    category: 'Technology & AI',
+    tags: ['WebDev', 'APIs', 'Express', 'Security'],
+    coverImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    content: `When your frontend is hosted on Netlify and your backend is deployed on Render, browsers enforce cross-origin constraints.
+
+Understanding the handshake:
+- The browser dispatches preflight OPTIONS requests for non-simple calls.
+- Render validates the origin header against allowed production domains.
+- Upon approval, JSON payloads flow securely between the presentation and application tiers.
+
+Configuring CORS with explicit environment variables ensures your public API remains protected while keeping communication seamless.`,
+    excerpt: 'A practical breakdown of how browsers, REST APIs, and multi-domain cloud services interact securely.',
+    readTime: '4 min read',
+    likes: 29,
   },
 ];
 
@@ -165,9 +186,9 @@ exports.createPost = async (req, res) => {
     const newPost = await Post.create({
       title: title.trim(),
       content: content.trim(),
-      author: author && author.trim() ? author.trim() : 'Cloud Scribe',
-      category: category || 'Cloud Architecture',
-      tags: formattedTags.length > 0 ? formattedTags : ['Cloud'],
+      author: author && author.trim() ? author.trim() : 'BlogSpace Author',
+      category: category || 'Technology & AI',
+      tags: formattedTags.length > 0 ? formattedTags : ['BlogSpace'],
       coverImage: coverImage && coverImage.trim() ? coverImage.trim() : undefined,
     });
 

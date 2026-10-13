@@ -1,4 +1,4 @@
-# ☁️ CloudScribe: 3-Tier Cloud Publishing Platform
+# ☁️ BlogSpace: 3-Tier Cloud Blog Reading & Writing Platform
 > **Design and Deployment of a Three-Tier Web Application Using Netlify, Render, and MongoDB Atlas**
 
 [![Frontend: Netlify](https://img.shields.io/badge/Tier%201-Netlify-00c7b7?style=for-the-badge&logo=netlify&logoColor=white)](https://www.netlify.com/)
@@ -9,11 +9,14 @@
 
 ## 📌 1. Project Overview
 
-**CloudScribe** is a modern, responsive, decoupled blog publishing platform designed and structured according to standard **Three-Tier Cloud Architecture** principles. Rather than hosting the user interface, backend application logic, and database on a monolithic single-server instance, each tier is hosted independently across three specialized cloud platforms:
+**BlogSpace** is a web-based platform designed for users to read, write, publish, and manage blog posts on various topics. The website provides a simple and user-friendly interface where readers can explore articles, search for blogs of interest, and access detailed content, while writers can create new posts, edit existing articles, and delete their published content.
 
-1. **Presentation Tier (Tier 1)**: Deployed on **Netlify** (React 18, Vite, modern Glassmorphic CSS).
-2. **Application Tier (Tier 2)**: Deployed on **Render** (Node.js & Express.js REST API with CORS validation).
-3. **Database Tier (Tier 3)**: Hosted on **MongoDB Atlas** (Managed Cloud NoSQL Document Store).
+The platform follows a **three-tier cloud architecture**, with:
+1. **Presentation Tier (Tier 1)**: Developed using **React (Vite)** and deployed on **Netlify**.
+2. **Application Tier (Tier 2)**: Developed using **Node.js & Express.js** and deployed on **Render**.
+3. **Database Tier (Tier 3)**: Hosted securely on **MongoDB Atlas** (Managed Cloud NoSQL Database).
+
+The frontend communicates with the backend through REST APIs, while the backend handles business logic and performs CRUD (Create, Read, Update, and Delete) operations on blog data stored in the database. The application uses environment variables to protect database credentials and CORS configuration to control frontend-backend communication.
 
 ---
 
@@ -191,7 +194,7 @@ Follow this deployment sequence to launch the 3-Tier application across the clou
 3. Click **New +** → **Web Service**.
 4. Connect your GitHub repository.
 5. Configure the service settings:
-   - **Name**: `cloudscribe-api` (or your choice)
+   - **Name**: `blogspace-api` (or your choice)
    - **Region**: Closest to your MongoDB Atlas cluster (e.g., Oregon or Frankfurt)
    - **Branch**: `main`
    - **Root Directory**: `backend` *(CRITICAL: Set to `backend` since it is a monorepo)*
@@ -208,9 +211,9 @@ Follow this deployment sequence to launch the 3-Tier application across the clou
 7. Click **Deploy Web Service**.
 8. Once deployed, note down your Render public URL:
    ```text
-   https://cloudscribe-api.onrender.com
+   https://blogspace-api.onrender.com
    ```
-   *(Test by visiting `https://cloudscribe-api.onrender.com/api/health` in your browser)*
+   *(Test by visiting `https://blogspace-api.onrender.com/api/health` in your browser)*
 
 ---
 
@@ -224,11 +227,11 @@ Follow this deployment sequence to launch the 3-Tier application across the clou
    - **Publish directory**: `frontend/dist` (or `dist` relative to base)
 5. **Configure Environment Variables**:
    - Under **Site configuration** → **Environment variables**, add:
-     - `VITE_API_URL`: `https://cloudscribe-api.onrender.com` *(Your Render URL from Step 2)*
+     - `VITE_API_URL`: `https://blogspace-api.onrender.com` *(Your Render URL from Step 2)*
 6. Click **Deploy Site**.
 7. Netlify will generate a public URL such as:
    ```text
-   https://cloudscribe-blog.netlify.app
+   https://blogspace.netlify.app
    ```
 
 ---
@@ -237,7 +240,7 @@ Follow this deployment sequence to launch the 3-Tier application across the clou
 1. Return to your **Render Dashboard** for your backend service.
 2. In **Environment Variables**, set:
    ```env
-   FRONTEND_URL=https://cloudscribe-blog.netlify.app
+   FRONTEND_URL=https://blogspace.netlify.app
    ```
 3. Save changes. Render will perform an automated redeploy to lock down CORS access exclusively to your Netlify domain.
 

@@ -5,7 +5,7 @@
 
 const getInitialBaseUrl = () => {
   // 1. Check local storage override if user changed it in UI
-  const storedUrl = localStorage.getItem('cloudscribe_api_url');
+  const storedUrl = localStorage.getItem('blogspace_api_url');
   if (storedUrl) return storedUrl;
 
   // 2. Check Vite environment variable
@@ -23,11 +23,11 @@ export const getApiBaseUrl = () => BASE_URL;
 
 export const setApiBaseUrl = (url) => {
   BASE_URL = url.replace(/\/$/, '');
-  localStorage.setItem('cloudscribe_api_url', BASE_URL);
+  localStorage.setItem('blogspace_api_url', BASE_URL);
 };
 
 export const resetApiBaseUrl = () => {
-  localStorage.removeItem('cloudscribe_api_url');
+  localStorage.removeItem('blogspace_api_url');
   BASE_URL = import.meta.env.VITE_API_URL
     ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
     : 'http://localhost:5000';

@@ -1,7 +1,7 @@
 {
-  "name": "cloudscribe-backend",
+  "name": "blogspace-backend",
   "version": "1.0.0",
-  "description": "Tier 2: Express.js REST API Server for 3-Tier Blog Web Application deployed on Render",
+  "description": "Tier 2: Express.js REST API Server for BlogSpace 3-Tier Web Application deployed on Render",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

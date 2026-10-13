@@ -31,12 +31,12 @@ import {
 
 const CATEGORIES = [
   'All',
-  'Cloud Architecture',
+  'Technology & AI',
   'Web Development',
-  'DevOps & CI/CD',
-  'Database Design',
-  'System Design',
-  'General Tech',
+  'Productivity & Life',
+  'Design & UI/UX',
+  'Cloud & Architecture',
+  'Career & Learning',
 ];
 
 export default function App() {
@@ -259,15 +259,14 @@ export default function App() {
           }}>
             <CloudLightning size={14} color="#818cf8" />
             <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#a5b4fc' }}>
-              Three-Tier Cloud Deployment
+              Blog Reading & Writing Website • 3-Tier Cloud Architecture
             </span>
           </div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '0.75rem' }}>
-            Decoupled Multi-Cloud <span className="text-gradient-cloud">Publishing Platform</span>
+            Explore, Write & Publish on <span className="text-gradient-cloud">BlogSpace</span>
           </h1>
-          <p style={{ maxWidth: '640px', margin: '0 auto', fontSize: '1rem', color: 'var(--text-secondary)' }}>
-            Experience independent cloud layers in harmony: Netlify renders the presentation layer, 
-            Render processes the REST business logic, and MongoDB Atlas manages persistent document storage.
+          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '1rem', color: 'var(--text-secondary)' }}>
+            A modern platform designed for readers to discover insights and writers to create, publish, edit, and manage blog posts on various topics. Built on an independently deployed three-tier cloud architecture: Netlify (Frontend), Render (Backend API), and MongoDB Atlas (Database).
           </p>
         </section>
 

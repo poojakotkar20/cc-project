@@ -42,14 +42,14 @@ export default function Navbar({ onOpenCreate, onSeedSample, onOpenArchitecture 
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ fontSize: '1.28rem', fontWeight: 800, letterSpacing: '-0.02em' }} className="text-gradient">
-                CloudScribe
+                BlogSpace
               </span>
               <span className="badge badge-cloud" style={{ fontSize: '0.68rem', padding: '0.15rem 0.5rem' }}>
-                v1.0
+                3-Tier Cloud
               </span>
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', letterSpacing: '0.01em' }}>
-              Netlify • Render • MongoDB Atlas
+              Blog Reading & Writing • Netlify • Render • MongoDB
             </div>
           </div>
         </div>

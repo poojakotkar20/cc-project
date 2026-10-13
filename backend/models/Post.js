@@ -21,27 +21,16 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Author name is required'],
       trim: true,
-      default: 'Cloud Architect',
+      default: 'BlogSpace Writer',
     },
     category: {
       type: String,
       required: [true, 'Category is required'],
-      enum: {
-        values: [
-          'Cloud Architecture',
-          'Web Development',
-          'DevOps & CI/CD',
-          'Database Design',
-          'System Design',
-          'General Tech',
-        ],
-        message: '{VALUE} is not a supported category',
-      },
-      default: 'Cloud Architecture',
+      default: 'Technology & AI',
     },
     tags: {
       type: [String],
-      default: ['Cloud', 'ThreeTier'],
+      default: ['BlogSpace', 'Reading'],
     },
     coverImage: {
       type: String,

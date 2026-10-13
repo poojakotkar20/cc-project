@@ -21,10 +21,10 @@ export default function Footer({ onOpenArchitecture }) {
         }}>
           <div>
             <div style={{ fontSize: '1.2rem', fontWeight: 800 }} className="text-gradient">
-              CloudScribe Platform
+              BlogSpace
             </div>
             <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-              Three-Tier Cloud Web Application Architecture
+              Blog Reading & Writing on a 3-Tier Cloud Architecture
             </div>
           </div>
 
