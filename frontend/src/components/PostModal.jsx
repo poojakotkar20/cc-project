@@ -7,10 +7,10 @@ import {
   Heart, 
   Edit3, 
   Trash2, 
-  Image as ImageIcon, 
   Send, 
   AlertCircle,
-  Tag
+  Tag,
+  BookOpen
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -26,7 +26,7 @@ const PRESET_IMAGES = [
   { label: 'Technology', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80' },
   { label: 'Writing & Desk', url: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80' },
   { label: 'Design & Creative', url: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80' },
-  { label: 'Cloud Architecture', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'Architecture', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80' },
 ];
 
 export default function PostModal({
@@ -43,7 +43,7 @@ export default function PostModal({
   const [formData, setFormData] = useState({
     title: '',
     author: '',
-    category: 'Cloud Architecture',
+    category: 'Technology & AI',
     tags: '',
     coverImage: PRESET_IMAGES[0].url,
     content: '',
@@ -56,7 +56,7 @@ export default function PostModal({
       setFormData({
         title: post.title || '',
         author: post.author || '',
-        category: post.category || 'Cloud Architecture',
+        category: post.category || 'Technology & AI',
         tags: Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || ''),
         coverImage: post.coverImage || PRESET_IMAGES[0].url,
         content: post.content || '',
@@ -64,9 +64,9 @@ export default function PostModal({
     } else if (mode === 'create') {
       setFormData({
         title: '',
-        author: 'BlogSpace Writer',
+        author: 'Pooja',
         category: 'Technology & AI',
-        tags: 'Reading, Writing, BlogSpace',
+        tags: 'Reading, Learning, BlogSpace',
         coverImage: PRESET_IMAGES[0].url,
         content: '',
       });
@@ -79,11 +79,11 @@ export default function PostModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.title.trim()) {
-      setFormError('Please enter a post title.');
+      setFormError('Please enter a title for your story.');
       return;
     }
     if (!formData.content.trim()) {
-      setFormError('Please enter post content.');
+      setFormError('Please write some content for your story.');
       return;
     }
     setFormError('');
@@ -110,8 +110,8 @@ export default function PostModal({
           borderBottom: '1px solid var(--border-subtle)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <span className="badge badge-cloud">
-              {mode === 'view' ? 'Article Reader' : (mode === 'create' ? 'Create Post (POST /api/posts)' : 'Edit Post (PUT /api/posts/:id)')}
+            <span style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)' }}>
+              {mode === 'view' ? 'Story' : (mode === 'create' ? 'Write a Story' : 'Edit Story')}
             </span>
           </div>
           <button onClick={onClose} className="btn-icon" style={{ borderRadius: '50%' }}>
@@ -139,21 +139,21 @@ export default function PostModal({
             </div>
           )}
 
-          {/* VIEW MODE */}
+          {/* VIEW MODE: Natural Article Reader */}
           {mode === 'view' && post && (
             <div>
               {post.coverImage && (
                 <div style={{ 
                   borderRadius: 'var(--radius-md)', 
                   overflow: 'hidden', 
-                  maxHeight: '280px', 
-                  marginBottom: '1.25rem',
+                  maxHeight: '300px', 
+                  marginBottom: '1.5rem',
                   backgroundColor: '#1e293b'
                 }}>
                   <img 
                     src={post.coverImage} 
                     alt={post.title} 
-                    style={{ width: '100%', height: '280px', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '300px', objectFit: 'cover' }}
                   />
                 </div>
               )}
@@ -168,38 +168,39 @@ export default function PostModal({
                 </span>
               </div>
 
-              <h1 style={{ fontSize: '1.65rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '1rem' }}>
+              <h1 style={{ fontSize: '1.85rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '1.25rem' }}>
                 {post.title}
               </h1>
 
-              {/* Author Strip */}
+              {/* Author & Controls Strip */}
               <div style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'space-between', 
                 background: 'rgba(255, 255, 255, 0.03)',
-                padding: '0.75rem 1rem',
+                padding: '0.85rem 1rem',
                 borderRadius: 'var(--radius-md)',
-                marginBottom: '1.5rem',
+                marginBottom: '1.75rem',
                 border: '1px solid var(--border-subtle)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                   <div style={{ 
-                    width: '34px', 
-                    height: '34px', 
+                    width: '36px', 
+                    height: '36px', 
                     borderRadius: '50%', 
                     background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
                     fontWeight: 700,
-                    fontSize: '0.88rem'
+                    fontSize: '0.9rem',
+                    color: '#ffffff'
                   }}>
                     {(post.author || 'A')[0].toUpperCase()}
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 600 }}>{post.author}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>MongoDB Document ID: {post._id}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>{post.author}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Published author on BlogSpace</div>
                   </div>
                 </div>
 
@@ -208,13 +209,15 @@ export default function PostModal({
                     onClick={() => onLikeTrigger(post._id)}
                     className="btn btn-secondary btn-sm"
                     style={{ gap: '0.4rem' }}
+                    title="Like article"
                   >
                     <Heart size={15} color={post.likes > 0 ? '#ec4899' : 'currentColor'} fill={post.likes > 0 ? '#ec4899' : 'none'} />
-                    <span>{post.likes || 0} Likes</span>
+                    <span>{post.likes || 0}</span>
                   </button>
                   <button 
                     onClick={() => onEditTrigger(post)}
                     className="btn btn-secondary btn-sm"
+                    title="Edit article"
                   >
                     <Edit3 size={15} />
                     <span>Edit</span>
@@ -222,6 +225,7 @@ export default function PostModal({
                   <button 
                     onClick={() => onDeleteTrigger(post)}
                     className="btn btn-outline-danger btn-sm"
+                    title="Delete article"
                   >
                     <Trash2 size={15} />
                     <span>Delete</span>
@@ -231,20 +235,20 @@ export default function PostModal({
 
               {/* Article Content */}
               <div style={{ 
-                fontSize: '1rem', 
-                lineHeight: 1.75, 
+                fontSize: '1.05rem', 
+                lineHeight: 1.8, 
                 color: '#e2e8f0', 
                 whiteSpace: 'pre-line',
-                marginBottom: '1.5rem' 
+                marginBottom: '1.75rem' 
               }}>
                 {post.content}
               </div>
 
               {/* Tags */}
               {post.tags && post.tags.length > 0 && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '1.25rem' }}>
                   {post.tags.map((tag, idx) => (
-                    <span key={idx} className="badge badge-cloud">
+                    <span key={idx} className="badge badge-cloud" style={{ background: 'rgba(255, 255, 255, 0.05)' }}>
                       #{tag}
                     </span>
                   ))}
@@ -257,13 +261,14 @@ export default function PostModal({
           {(mode === 'create' || mode === 'edit') && (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label className="form-label">Article Title *</label>
+                <label className="form-label">Article Title</label>
                 <input 
                   type="text" 
                   value={formData.title} 
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g. Architectural Blueprint for 3-Tier Multi-Cloud Systems"
+                  placeholder="e.g. 5 Habits That Transformed My Daily Creative Routine"
                   className="form-input"
+                  style={{ fontSize: '1.05rem', fontWeight: 600 }}
                   required
                 />
               </div>
@@ -275,13 +280,13 @@ export default function PostModal({
                     type="text" 
                     value={formData.author} 
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                    placeholder="e.g. Jane Doe"
+                    placeholder="Your name"
                     className="form-input"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Category</label>
+                  <label className="form-label">Topic / Category</label>
                   <select 
                     value={formData.category} 
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -300,7 +305,7 @@ export default function PostModal({
                   type="text" 
                   value={formData.tags} 
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                  placeholder="e.g. Cloud, Netlify, Render, MongoDB"
+                  placeholder="e.g. Productivity, Mindset, Writing"
                   className="form-input"
                 />
               </div>
@@ -317,7 +322,7 @@ export default function PostModal({
                   style={{ marginBottom: '0.5rem' }}
                 />
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Quick Presets:</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Cover themes:</span>
                   {PRESET_IMAGES.map((preset, idx) => (
                     <button
                       key={idx}
@@ -326,7 +331,7 @@ export default function PostModal({
                       className="btn btn-secondary btn-sm"
                       style={{ 
                         fontSize: '0.72rem', 
-                        padding: '0.2rem 0.5rem',
+                        padding: '0.2rem 0.55rem',
                         border: formData.coverImage === preset.url ? '1px solid var(--primary)' : '1px solid var(--border-subtle)' 
                       }}
                     >
@@ -337,13 +342,14 @@ export default function PostModal({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Post Content (Markdown or Plain Text) *</label>
+                <label className="form-label">Story Content</label>
                 <textarea 
                   rows={8}
                   value={formData.content} 
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  placeholder="Write your blog post content here... Supports paragraphs, bullet points, and code snippets."
+                  placeholder="Write your story here... Share insights, tutorials, or perspectives with readers."
                   className="form-textarea"
+                  style={{ lineHeight: 1.7 }}
                   required
                 />
               </div>
@@ -359,8 +365,8 @@ export default function PostModal({
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary" disabled={submitting}>
-                  <Send size={16} />
-                  <span>{submitting ? 'Saving to MongoDB...' : (mode === 'create' ? 'Publish Article' : 'Update Article')}</span>
+                  <Send size={15} />
+                  <span>{submitting ? 'Publishing...' : (mode === 'create' ? 'Publish Story' : 'Save Changes')}</span>
                 </button>
               </div>
             </form>

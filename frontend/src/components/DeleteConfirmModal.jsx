@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, AlertTriangle, X } from 'lucide-react';
+import { Trash2, AlertTriangle } from 'lucide-react';
 
 export default function DeleteConfirmModal({ isOpen, post, onConfirm, onCancel, deleting }) {
   if (!isOpen || !post) return null;
@@ -9,12 +9,12 @@ export default function DeleteConfirmModal({ isOpen, post, onConfirm, onCancel, 
       <div 
         className="modal-content" 
         onClick={(e) => e.stopPropagation()} 
-        style={{ maxWidth: '440px' }}
+        style={{ maxWidth: '420px' }}
       >
-        <div style={{ padding: '1.5rem', textAlign: 'center' }}>
+        <div style={{ padding: '1.75rem', textAlign: 'center' }}>
           <div style={{ 
-            width: '52px', 
-            height: '52px', 
+            width: '48px', 
+            height: '48px', 
             borderRadius: '50%', 
             background: 'rgba(239, 68, 68, 0.15)', 
             display: 'flex', 
@@ -23,30 +23,17 @@ export default function DeleteConfirmModal({ isOpen, post, onConfirm, onCancel, 
             margin: '0 auto 1.25rem auto',
             color: 'var(--danger)'
           }}>
-            <AlertTriangle size={28} />
+            <Trash2 size={24} />
           </div>
 
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-            Delete Blog Post?
+          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+            Delete Story?
           </h3>
 
-          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
             Are you sure you want to delete <strong style={{ color: 'var(--text-main)' }}>"{post.title}"</strong>?
-            This will permanently remove the document from <strong style={{ color: 'var(--tier-mongo)' }}>MongoDB Atlas</strong> via the Render API.
+            This will permanently remove it from your published stories.
           </p>
-
-          <div style={{ 
-            background: 'rgba(0, 0, 0, 0.3)', 
-            padding: '0.6rem 0.8rem', 
-            borderRadius: 'var(--radius-sm)', 
-            fontSize: '0.75rem', 
-            fontFamily: 'var(--font-mono)', 
-            color: 'var(--text-muted)',
-            marginBottom: '1.5rem',
-            textAlign: 'left'
-          }}>
-            DELETE {`/api/posts/${post._id}`}
-          </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
             <button 
@@ -65,7 +52,6 @@ export default function DeleteConfirmModal({ isOpen, post, onConfirm, onCancel, 
               disabled={deleting}
               style={{ flex: 1 }}
             >
-              <Trash2 size={16} />
               <span>{deleting ? 'Deleting...' : 'Delete'}</span>
             </button>
           </div>

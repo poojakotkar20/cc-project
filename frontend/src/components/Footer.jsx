@@ -1,13 +1,13 @@
 import React from 'react';
-import { Cloud, Server, Database, Heart, Layers } from 'lucide-react';
+import { BookOpen, Layers } from 'lucide-react';
 
 export default function Footer({ onOpenArchitecture }) {
   return (
     <footer style={{ 
       borderTop: '1px solid var(--border-subtle)', 
-      marginTop: '4rem', 
-      padding: '3rem 0 2rem 0',
-      backgroundColor: 'rgba(10, 14, 23, 0.9)'
+      marginTop: '5rem', 
+      padding: '3.5rem 0 2.5rem 0',
+      backgroundColor: 'rgba(10, 14, 23, 0.95)'
     }}>
       <div className="container">
         <div style={{ 
@@ -20,25 +20,32 @@ export default function Footer({ onOpenArchitecture }) {
           borderBottom: '1px solid var(--border-subtle)'
         }}>
           <div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800 }} className="text-gradient">
-              BlogSpace
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <div style={{ 
+                width: '30px', 
+                height: '30px', 
+                borderRadius: '8px', 
+                background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center'
+              }}>
+                <BookOpen size={16} color="#ffffff" />
+              </div>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800 }} className="text-gradient">
+                BlogSpace
+              </span>
             </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-              Blog Reading & Writing on a 3-Tier Cloud Architecture
+            <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginTop: '0.5rem', maxWidth: '420px' }}>
+              A place to read thoughtfully and write freely. Discover perspectives, stories, and ideas across various topics.
             </div>
           </div>
 
-          {/* Cloud Badges */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
-            <span className="badge badge-netlify">
-              <Cloud size={13} /> Tier 1: Netlify
-            </span>
-            <span className="badge badge-render">
-              <Server size={13} /> Tier 2: Render
-            </span>
-            <span className="badge badge-mongo">
-              <Database size={13} /> Tier 3: MongoDB Atlas
-            </span>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+            <span>Stories</span>
+            <span>Writers</span>
+            <span>Topics</span>
+            <span>Guidelines</span>
           </div>
         </div>
 
@@ -48,27 +55,36 @@ export default function Footer({ onOpenArchitecture }) {
           justifyContent: 'space-between', 
           alignItems: 'center', 
           gap: '1rem',
-          marginTop: '1.5rem',
-          fontSize: '0.8rem',
+          marginTop: '1.75rem',
+          fontSize: '0.82rem',
           color: 'var(--text-muted)'
         }}>
           <div>
-            Demonstration of decoupled, modular, and scalable multi-cloud computing.
+            © {new Date().getFullYear()} BlogSpace. All rights reserved.
           </div>
+          
+          {/* Subtle architectural documentation button for project review/grading */}
           <button
             onClick={onOpenArchitecture}
             style={{ 
-              background: 'transparent', 
-              border: 'none', 
-              color: 'var(--primary)', 
+              background: 'rgba(255, 255, 255, 0.04)', 
+              border: '1px solid var(--border-subtle)', 
+              color: 'var(--text-muted)', 
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.35rem 0.75rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.3rem',
-              fontWeight: 600
+              gap: '0.4rem',
+              fontSize: '0.75rem',
+              transition: 'var(--transition)'
             }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-main)'; e.currentTarget.style.borderColor = 'var(--primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}
+            title="View 3-Tier Cloud Architecture System Specifications"
           >
-            <Layers size={14} /> View Architecture Diagrams & Test Cases
+            <Layers size={13} />
+            <span>Cloud Architecture Specs</span>
           </button>
         </div>
       </div>

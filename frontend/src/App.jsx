@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Search, 
-  Filter, 
   Sparkles, 
-  Plus, 
+  PenTool, 
   BookOpen, 
   CheckCircle2, 
   AlertCircle, 
   RefreshCw,
   SlidersHorizontal,
-  CloudLightning
+  Flame
 } from 'lucide-react';
 import Navbar from './components/Navbar';
-import TierStatusBanner from './components/TierStatusBanner';
 import PostCard from './components/PostCard';
 import PostModal from './components/PostModal';
 import DeleteConfirmModal from './components/DeleteConfirmModal';
@@ -25,8 +23,7 @@ import {
   updatePost, 
   deletePost, 
   likePost, 
-  seedSamplePosts, 
-  checkHealth 
+  seedSamplePosts 
 } from './services/api';
 
 const CATEGORIES = [
@@ -46,10 +43,6 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
   const [sort, setSort] = useState('newest');
-
-  // Health and Tier status
-  const [health, setHealth] = useState(null);
-  const [checkingHealth, setCheckingHealth] = useState(false);
 
   // Modals
   const [modalState, setModalState] = useState({
@@ -75,14 +68,6 @@ export default function App() {
     }, 3500);
   };
 
-  // Perform Tier Health Check
-  const runHealthCheck = useCallback(async () => {
-    setCheckingHealth(true);
-    const res = await checkHealth();
-    setHealth(res);
-    setCheckingHealth(false);
-  }, []);
-
   // Load Posts from REST API (Tier 1 -> Tier 2 -> Tier 3)
   const loadPosts = useCallback(async () => {
     try {
@@ -93,15 +78,11 @@ export default function App() {
         setPosts(res.data);
       }
     } catch (err) {
-      setError(err.message || 'Failed to load posts');
+      setError(err.message || 'Unable to load stories. Please try refreshing.');
     } finally {
       setLoading(false);
     }
   }, [search, category, sort]);
-
-  useEffect(() => {
-    runHealthCheck();
-  }, [runHealthCheck]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -110,7 +91,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [loadPosts]);
 
-  // Handlers for CRUD Operations
+  // Handlers for Blog CRUD Operations
   const handleOpenCreate = () => {
     setModalState({ isOpen: true, mode: 'create', post: null });
   };
@@ -131,19 +112,18 @@ export default function App() {
     try {
       setSubmitting(true);
       if (modalState.mode === 'create') {
-        const res = await createPost(formData);
-        showToast('Blog post created & saved to MongoDB Atlas!', 'success');
+        await createPost(formData);
+        showToast('Story published successfully!', 'success');
         setModalState({ isOpen: false, mode: 'view', post: null });
         loadPosts();
-        runHealthCheck();
       } else if (modalState.mode === 'edit') {
-        const res = await updatePost(modalState.post._id, formData);
-        showToast('Blog post updated successfully!', 'success');
+        await updatePost(modalState.post._id, formData);
+        showToast('Story updated successfully!', 'success');
         setModalState({ isOpen: false, mode: 'view', post: null });
         loadPosts();
       }
     } catch (err) {
-      showToast(err.message || 'Failed to save post', 'error');
+      showToast(err.message || 'Could not save story', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -153,14 +133,14 @@ export default function App() {
     try {
       setDeleting(true);
       await deletePost(postId);
-      showToast('Post removed from MongoDB Atlas successfully!', 'success');
+      showToast('Story deleted successfully.', 'success');
       setDeleteModal({ isOpen: false, post: null });
       if (modalState.isOpen && modalState.post?._id === postId) {
         setModalState({ isOpen: false, mode: 'view', post: null });
       }
       loadPosts();
     } catch (err) {
-      showToast(err.message || 'Failed to delete post', 'error');
+      showToast(err.message || 'Could not delete story', 'error');
     } finally {
       setDeleting(false);
     }
@@ -181,7 +161,7 @@ export default function App() {
         }
       }
     } catch (err) {
-      showToast('Could not like post', 'error');
+      showToast('Could not like story', 'error');
     }
   };
 
@@ -189,11 +169,10 @@ export default function App() {
     try {
       setLoading(true);
       const res = await seedSamplePosts(true);
-      showToast(res.message || 'Sample posts seeded successfully!', 'success');
+      showToast('Sample stories loaded!', 'success');
       loadPosts();
-      runHealthCheck();
     } catch (err) {
-      showToast(err.message || 'Seeding failed', 'error');
+      showToast('Could not load sample stories', 'error');
     } finally {
       setLoading(false);
     }
@@ -233,41 +212,78 @@ export default function App() {
       <Navbar 
         onOpenCreate={handleOpenCreate} 
         onSeedSample={handleSeed}
-        onOpenArchitecture={() => setArchitectureModalOpen(true)}
       />
 
-      <main className="container" style={{ flex: 1, padding: '2rem 1.5rem' }}>
-        {/* Tier Status Visual Pipeline Banner */}
-        <TierStatusBanner 
-          health={health}
-          checking={checkingHealth}
-          onRefresh={() => { runHealthCheck(); loadPosts(); }}
-          onOpenArchitectureModal={() => setArchitectureModalOpen(true)}
-        />
-
-        {/* Hero Section */}
-        <section style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '0.4rem', 
-            background: 'rgba(99, 102, 241, 0.1)', 
-            padding: '0.35rem 0.85rem', 
-            borderRadius: 'var(--radius-full)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            marginBottom: '1rem' 
+      <main className="container" style={{ flex: 1, padding: '1.5rem 1.5rem 3rem 1.5rem' }}>
+        
+        {/* Editorial Hero Section */}
+        <section style={{ padding: '3rem 0 2.5rem 0', textAlign: 'center' }}>
+          <h1 style={{ 
+            fontSize: '3rem', 
+            fontWeight: 800, 
+            letterSpacing: '-0.03em', 
+            lineHeight: 1.18, 
+            marginBottom: '0.85rem',
+            maxWidth: '780px',
+            margin: '0 auto 0.85rem auto'
           }}>
-            <CloudLightning size={14} color="#818cf8" />
-            <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#a5b4fc' }}>
-              Blog Reading & Writing Website • 3-Tier Cloud Architecture
-            </span>
-          </div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '0.75rem' }}>
-            Explore, Write & Publish on <span className="text-gradient-cloud">BlogSpace</span>
+            Where good ideas <span className="text-gradient">find their voice.</span>
           </h1>
-          <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '1rem', color: 'var(--text-secondary)' }}>
-            A modern platform designed for readers to discover insights and writers to create, publish, edit, and manage blog posts on various topics. Built on an independently deployed three-tier cloud architecture: Netlify (Frontend), Render (Backend API), and MongoDB Atlas (Database).
+          <p style={{ maxWidth: '580px', margin: '0 auto 1.85rem auto', fontSize: '1.08rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            Explore insightful stories, stay curious across various topics, or share your own thoughts with readers worldwide.
           </p>
+
+          <div style={{ display: 'flex', gap: '0.85rem', justifyContent: 'center', alignItems: 'center' }}>
+            <button 
+              onClick={handleOpenCreate} 
+              className="btn btn-primary"
+              style={{ borderRadius: 'var(--radius-full)', padding: '0.75rem 1.6rem', fontSize: '0.95rem' }}
+            >
+              <PenTool size={16} />
+              <span>Start Writing</span>
+            </button>
+            <button 
+              onClick={() => {
+                const el = document.getElementById('stories-feed');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }} 
+              className="btn btn-secondary"
+              style={{ borderRadius: 'var(--radius-full)', padding: '0.75rem 1.6rem', fontSize: '0.95rem' }}
+            >
+              <span>Explore Stories</span>
+            </button>
+          </div>
+        </section>
+
+        {/* Category Pills Bar */}
+        <section id="stories-feed" style={{ 
+          display: 'flex', 
+          overflowX: 'auto', 
+          gap: '0.55rem', 
+          paddingBottom: '0.5rem', 
+          marginBottom: '1.75rem',
+          scrollbarWidth: 'none'
+        }}>
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              style={{
+                background: category === cat ? 'linear-gradient(135deg, var(--primary) 0%, #4338ca 100%)' : 'rgba(255, 255, 255, 0.05)',
+                color: category === cat ? '#ffffff' : 'var(--text-secondary)',
+                border: category === cat ? '1px solid var(--border-glow)' : '1px solid var(--border-subtle)',
+                padding: '0.45rem 1.15rem',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'var(--transition)'
+              }}
+            >
+              {cat}
+            </button>
+          ))}
         </section>
 
         {/* Filter and Search Bar */}
@@ -277,7 +293,7 @@ export default function App() {
           alignItems: 'center', 
           justifyContent: 'space-between', 
           gap: '1rem',
-          marginBottom: '1.75rem' 
+          marginBottom: '2rem' 
         }}>
           {/* Search Input */}
           <div style={{ position: 'relative', flex: 1, minWidth: '260px' }}>
@@ -286,14 +302,14 @@ export default function App() {
               type="text" 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by title, author, content or #tag..." 
+              placeholder="Search stories by title, topic, or author..." 
               className="form-input"
-              style={{ paddingLeft: '2.6rem' }}
+              style={{ paddingLeft: '2.6rem', borderRadius: 'var(--radius-full)' }}
             />
             {search && (
               <button 
                 onClick={() => setSearch('')}
-                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.8rem' }}
+                style={{ position: 'absolute', right: '0.85rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.8rem' }}
               >
                 Clear
               </button>
@@ -307,97 +323,44 @@ export default function App() {
               value={sort} 
               onChange={(e) => setSort(e.target.value)} 
               className="form-select"
-              style={{ padding: '0.65rem 1rem', width: 'auto' }}
+              style={{ padding: '0.65rem 1rem', width: 'auto', borderRadius: 'var(--radius-md)' }}
             >
-              <option value="newest">Newest First</option>
+              <option value="newest">Latest Stories</option>
               <option value="oldest">Oldest First</option>
-              <option value="popular">Most Popular</option>
+              <option value="popular">Most Liked</option>
             </select>
           </div>
         </section>
 
-        {/* Category Pills */}
-        <section style={{ 
-          display: 'flex', 
-          overflowX: 'auto', 
-          gap: '0.5rem', 
-          paddingBottom: '0.5rem', 
-          marginBottom: '2rem',
-          scrollbarWidth: 'none'
-        }}>
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              style={{
-                background: category === cat ? 'linear-gradient(135deg, var(--primary) 0%, #4338ca 100%)' : 'rgba(255, 255, 255, 0.05)',
-                color: category === cat ? '#ffffff' : 'var(--text-secondary)',
-                border: category === cat ? '1px solid var(--border-glow)' : '1px solid var(--border-subtle)',
-                padding: '0.45rem 1rem',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                transition: 'var(--transition)'
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </section>
-
-        {/* Posts Grid or States */}
+        {/* Stories Feed */}
         {loading ? (
-          <div style={{ padding: '5rem 0', textAlign: 'center' }}>
+          <div style={{ padding: '6rem 0', textAlign: 'center' }}>
             <RefreshCw size={36} className="spin" style={{ margin: '0 auto 1rem auto', color: 'var(--primary)' }} />
-            <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>Fetching Posts from Render API...</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
-              Tier 1 (Netlify) is calling Tier 2 (Render) ⇄ Tier 3 (MongoDB Atlas)
-            </div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>Loading stories...</div>
           </div>
         ) : error ? (
-          <div className="glass-panel" style={{ padding: '3rem 2rem', textAlign: 'center', borderColor: 'rgba(239, 68, 68, 0.4)' }}>
+          <div className="glass-panel" style={{ padding: '3.5rem 2rem', textAlign: 'center' }}>
             <AlertCircle size={44} color="var(--danger)" style={{ margin: '0 auto 1rem auto' }} />
             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              Unable to Connect to Backend Tier
+              Unable to load stories
             </h3>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '540px', margin: '0 auto 1.5rem auto', fontSize: '0.9rem' }}>
-              {error}
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', margin: '0 auto 1.5rem auto', fontSize: '0.9rem' }}>
+              Please check your connection and try again.
             </p>
-            <div style={{ 
-              background: 'rgba(0, 0, 0, 0.35)', 
-              borderRadius: 'var(--radius-md)', 
-              padding: '1rem', 
-              maxWidth: '600px', 
-              margin: '0 auto 1.5rem auto',
-              textAlign: 'left',
-              fontSize: '0.8rem',
-              color: 'var(--text-muted)'
-            }}>
-              <strong style={{ color: '#ffffff' }}>Troubleshooting Guide:</strong>
-              <ul style={{ paddingLeft: '1.2rem', marginTop: '0.4rem', lineHeight: 1.6 }}>
-                <li><strong>Local test:</strong> Ensure backend is running (`node server.js` on port 5000).</li>
-                <li><strong>Cloud test:</strong> Render free web services take ~30-50s to spin up from sleep.</li>
-                <li><strong>Database:</strong> Confirm `MONGODB_URI` is configured in `.env` or Render environment settings.</li>
-              </ul>
-            </div>
-            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-              <button onClick={() => { runHealthCheck(); loadPosts(); }} className="btn btn-primary">
-                <RefreshCw size={16} /> Retry Connection
-              </button>
-            </div>
+            <button onClick={loadPosts} className="btn btn-primary">
+              <RefreshCw size={16} /> Retry
+            </button>
           </div>
         ) : posts.length === 0 ? (
-          <div className="glass-panel" style={{ padding: '4rem 2rem', textAlign: 'center' }}>
+          <div className="glass-panel" style={{ padding: '4.5rem 2rem', textAlign: 'center' }}>
             <BookOpen size={48} color="var(--text-muted)" style={{ margin: '0 auto 1.25rem auto' }} />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              No Blog Posts Found
+            <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+              No stories found
             </h3>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '480px', margin: '0 auto 1.5rem auto', fontSize: '0.9rem' }}>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', margin: '0 auto 1.5rem auto', fontSize: '0.92rem' }}>
               {search || category !== 'All' 
-                ? 'No articles match your current search query or category filter.' 
-                : 'The MongoDB Atlas `posts` collection is currently empty.'}
+                ? 'No stories match your current search or category filter.' 
+                : 'No stories have been published yet. Be the first to share your thoughts!'}
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
               {search || category !== 'All' ? (
@@ -407,10 +370,10 @@ export default function App() {
               ) : (
                 <>
                   <button onClick={handleSeed} className="btn btn-secondary">
-                    <Sparkles size={16} /> Seed Sample Posts
+                    <Sparkles size={16} /> Load Sample Stories
                   </button>
                   <button onClick={handleOpenCreate} className="btn btn-primary">
-                    <Plus size={16} /> Write First Article
+                    <PenTool size={16} /> Write First Story
                   </button>
                 </>
               )}
@@ -420,7 +383,7 @@ export default function App() {
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
-            gap: '1.75rem' 
+            gap: '1.85rem' 
           }}>
             {posts.map((post) => (
               <PostCard 
@@ -461,11 +424,21 @@ export default function App() {
         deleting={deleting}
       />
 
-      {/* Architecture Documentation Modal */}
+      {/* Architecture Documentation Modal (Subtle modal available via footer for assignment grading) */}
       <ArchitectureModal 
         isOpen={architectureModalOpen}
         onClose={() => setArchitectureModalOpen(false)}
       />
+
+      <style>{`
+        .spin {
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

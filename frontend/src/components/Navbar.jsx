@@ -1,18 +1,17 @@
 import React from 'react';
 import { 
-  Feather, 
-  Plus, 
+  PenTool, 
+  BookOpen, 
   Sparkles, 
-  Database, 
-  Layers, 
-  HelpCircle 
+  Search,
+  User
 } from 'lucide-react';
 
-export default function Navbar({ onOpenCreate, onSeedSample, onOpenArchitecture }) {
+export default function Navbar({ onOpenCreate, onSeedSample }) {
   return (
     <header style={{ 
       borderBottom: '1px solid var(--border-subtle)', 
-      backgroundColor: 'rgba(10, 14, 23, 0.85)',
+      backgroundColor: 'rgba(10, 14, 23, 0.88)',
       backdropFilter: 'blur(16px)',
       position: 'sticky',
       top: 0,
@@ -22,72 +21,71 @@ export default function Navbar({ onOpenCreate, onSeedSample, onOpenArchitecture 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'space-between', 
-        height: '72px',
+        height: '70px',
         gap: '1rem' 
       }}>
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
           <div style={{ 
-            width: '42px', 
-            height: '42px', 
-            borderRadius: 'var(--radius-md)', 
+            width: '38px', 
+            height: '38px', 
+            borderRadius: '10px', 
             background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(99, 102, 241, 0.4)'
+            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.35)'
           }}>
-            <Feather size={22} color="#ffffff" />
+            <BookOpen size={20} color="#ffffff" />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1.28rem', fontWeight: 800, letterSpacing: '-0.02em' }} className="text-gradient">
-                BlogSpace
-              </span>
-              <span className="badge badge-cloud" style={{ fontSize: '0.68rem', padding: '0.15rem 0.5rem' }}>
-                3-Tier Cloud
-              </span>
-            </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', letterSpacing: '0.01em' }}>
-              Blog Reading & Writing • Netlify • Render • MongoDB
-            </div>
+            <span style={{ fontSize: '1.32rem', fontWeight: 800, letterSpacing: '-0.02em' }} className="text-gradient">
+              BlogSpace
+            </span>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button 
-            onClick={onOpenArchitecture} 
-            className="btn btn-secondary btn-sm"
-            title="View 3-Tier Architecture Flowchart & Test Cases"
-          >
-            <Layers size={16} />
-            <span style={{ display: 'none', minWidth: '0' }} className="desktop-text">Architecture</span>
-          </button>
-
+        {/* Action Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           <button 
             onClick={onSeedSample} 
             className="btn btn-secondary btn-sm"
-            title="Populate MongoDB Atlas with starter blog records"
+            title="Populate starter sample articles"
+            style={{ fontSize: '0.82rem' }}
           >
-            <Sparkles size={16} />
-            <span>Seed Posts</span>
+            <Sparkles size={14} />
+            <span className="desktop-text">Sample Stories</span>
           </button>
 
           <button 
             onClick={onOpenCreate} 
             className="btn btn-primary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '0.5rem 1.15rem' }}
           >
-            <Plus size={16} />
-            <span>Write Post</span>
+            <PenTool size={15} />
+            <span>Write Story</span>
           </button>
+
+          <div style={{ 
+            width: '36px', 
+            height: '36px', 
+            borderRadius: '50%', 
+            background: 'rgba(255, 255, 255, 0.08)',
+            border: '1px solid var(--border-subtle)',
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            color: 'var(--text-secondary)'
+          }}>
+            <User size={18} />
+          </div>
         </div>
       </div>
 
       <style>{`
-        @media (min-width: 640px) {
+        @media (max-width: 640px) {
           .desktop-text {
-            display: inline !important;
+            display: none !important;
           }
         }
       `}</style>
